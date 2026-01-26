@@ -63,10 +63,8 @@ Documentation = "https://github.com/intellistream/sage-intent#readme"
 "Bug Tracker" = "https://github.com/intellistream/sage-intent/issues"
 
 [tool.setuptools]
-packages = ["sage_intent"]
-
-[tool.setuptools.package-dir]
-sage_intent = "."
+packages = ["sage_libs", "sage_libs.sage_agentic", "sage_libs.sage_agentic.intent"]
+package-dir = {"" = "src"}
 
 [tool.ruff]
 line-length = 100

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from sage.libs.agentic.intent.types import KnowledgeDomain, UserIntent
+from sage_libs.sage_agentic.intent.types import KnowledgeDomain, UserIntent
 
 
 @dataclass

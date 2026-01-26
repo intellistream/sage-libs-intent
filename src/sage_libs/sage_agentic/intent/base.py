@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Iterable
 
-from sage.libs.agentic.intent.types import IntentResult
+from sage_libs.sage_agentic.intent.types import IntentResult
 
 logger = logging.getLogger(__name__)
 

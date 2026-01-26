@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Sequence
 
-from sage.libs.agentic.intent.base import ChainedIntentRecognizer, IntentRecognizer
-from sage.libs.agentic.intent.keyword_recognizer import KeywordIntentRecognizer
-from sage.libs.agentic.intent.llm_recognizer import LLMIntentRecognizer
+from sage_libs.sage_agentic.intent.base import ChainedIntentRecognizer, IntentRecognizer
+from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
+from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
 
 RECOGNIZER_BUILDERS = {
     "llm": LLMIntentRecognizer,

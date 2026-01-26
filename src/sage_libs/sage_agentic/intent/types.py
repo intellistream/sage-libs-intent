@@ -7,7 +7,7 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from sage.libs.agentic.agents.action.tool_selection import ToolPrediction
+    from sage_libs.sage_agentic.agents.action.tool_selection import ToolPrediction
 
 
 class UserIntent(Enum):

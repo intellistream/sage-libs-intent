@@ -7,9 +7,9 @@ import logging
 from typing import Optional
 
 from sage.common.config.ports import SagePorts
-from sage.libs.agentic.intent.base import IntentRecognitionContext, IntentRecognizer
-from sage.libs.agentic.intent.types import IntentResult, KnowledgeDomain, UserIntent
-from sage.llm import UnifiedInferenceClient
+from sage_libs.sage_agentic.intent.base import IntentRecognitionContext, IntentRecognizer
+from sage_libs.sage_agentic.intent.types import IntentResult, KnowledgeDomain, UserIntent
+from isagellm import UnifiedInferenceClient
 
 logger = logging.getLogger(__name__)
 

@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 
-from sage.libs.agentic.intent.base import (
+from sage_libs.sage_agentic.intent.base import (
     ChainedIntentRecognizer,
     IntentRecognitionContext,
     IntentRecognizer,
 )
-from sage.libs.agentic.intent.catalog import (
+from sage_libs.sage_agentic.intent.catalog import (
     INTENT_TOOLS,
     IntentTool,
     IntentToolsLoader,
     get_all_intent_keywords,
     get_intent_tool,
 )
-from sage.libs.agentic.intent.factory import build_recognizer_chain
-from sage.libs.agentic.intent.keyword_recognizer import KeywordIntentRecognizer
-from sage.libs.agentic.intent.llm_recognizer import LLMIntentRecognizer
-from sage.libs.agentic.intent.types import (
+from sage_libs.sage_agentic.intent.factory import build_recognizer_chain
+from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
+from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
+from sage_libs.sage_agentic.intent.types import (
     DOMAIN_DISPLAY_NAMES,
     INTENT_DISPLAY_NAMES,
     IntentResult,

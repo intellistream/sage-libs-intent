@@ -5,9 +5,9 @@ from __future__ import annotations
 import logging
 from typing import Iterable
 
-from sage.libs.agentic.intent import catalog
-from sage.libs.agentic.intent.base import IntentRecognitionContext, IntentRecognizer
-from sage.libs.agentic.intent.types import IntentResult, KnowledgeDomain, UserIntent
+from sage_libs.sage_agentic.intent import catalog
+from sage_libs.sage_agentic.intent.base import IntentRecognitionContext, IntentRecognizer
+from sage_libs.sage_agentic.intent.types import IntentResult, KnowledgeDomain, UserIntent
 
 logger = logging.getLogger(__name__)
 
@@ -35,11 +35,11 @@ class KeywordIntentRecognizer(IntentRecognizer):
 
     def _initialize_selector(self) -> None:
         try:
-            from sage.libs.agentic.agents.action.tool_selection import (
+            from sage_libs.sage_agentic.agents.action.tool_selection import (
                 KeywordSelector,
                 SelectorResources,
             )
-            from sage.libs.agentic.agents.action.tool_selection.schemas import (
+            from sage_libs.sage_agentic.agents.action.tool_selection.schemas import (
                 KeywordSelectorConfig,
             )
 
@@ -91,7 +91,7 @@ class KeywordIntentRecognizer(IntentRecognizer):
         if self._selector is None:
             return self._classify_simple(ctx.message)
 
-        from sage.libs.agentic.agents.action.tool_selection.schemas import ToolSelectionQuery
+        from sage_libs.sage_agentic.agents.action.tool_selection.schemas import ToolSelectionQuery
 
         query = ToolSelectionQuery(
             sample_id="intent_classification",
