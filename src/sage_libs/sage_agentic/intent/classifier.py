@@ -16,7 +16,8 @@ from sage_libs.sage_agentic.intent.catalog import (
 )
 from sage_libs.sage_agentic.intent.factory import build_recognizer_chain
 from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
-from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
+
+# LLMIntentRecognizer is optional - imported via factory when needed
 from sage_libs.sage_agentic.intent.types import (
     DOMAIN_DISPLAY_NAMES,
     INTENT_DISPLAY_NAMES,

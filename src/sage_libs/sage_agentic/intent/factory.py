@@ -6,12 +6,20 @@ from typing import Sequence
 
 from sage_libs.sage_agentic.intent.base import ChainedIntentRecognizer, IntentRecognizer
 from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
-from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
 
-RECOGNIZER_BUILDERS = {
-    "llm": LLMIntentRecognizer,
-    "keyword": KeywordIntentRecognizer,
-}
+# Conditional import for LLMIntentRecognizer (requires isagellm)
+try:
+    from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
+
+    RECOGNIZER_BUILDERS = {
+        "llm": LLMIntentRecognizer,
+        "keyword": KeywordIntentRecognizer,
+    }
+except ImportError:
+    # LLM recognizer not available (isagellm not installed)
+    RECOGNIZER_BUILDERS = {
+        "keyword": KeywordIntentRecognizer,
+    }
 
 
 def build_recognizer_chain(
