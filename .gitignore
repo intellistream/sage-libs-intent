@@ -39,3 +39,4 @@ htmlcov/
 
 # Distribution
 *.whl
+.sage/*
