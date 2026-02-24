@@ -36,7 +36,7 @@ fi
 
 # Install hooks
 if [ -d "$TEMPLATE_DIR" ]; then
-    for hook in pre-commit pre-push; do
+    for hook in pre-commit pre-push post-commit; do
         if [ -f "$TEMPLATE_DIR/$hook" ]; then
             cp "$TEMPLATE_DIR/$hook" "$HOOKS_DIR/$hook"
             chmod +x "$HOOKS_DIR/$hook"
