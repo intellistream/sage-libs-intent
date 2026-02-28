@@ -227,7 +227,7 @@ INTENT_TOOLS: list[IntentTool] = [
             "LLM",
             "Gateway",
             "Embedding",
-            "vLLM",
+            "sageLLM",
             "集群",
             "cluster",
             "配置",
