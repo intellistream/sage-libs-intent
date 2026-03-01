@@ -2,31 +2,9 @@
 
 from __future__ import annotations
 
-from sage_libs.sage_agentic.intent.base import (
-    ChainedIntentRecognizer,
-    IntentRecognitionContext,
-    IntentRecognizer,
-)
-from sage_libs.sage_agentic.intent.catalog import (
-    INTENT_TOOLS,
-    IntentTool,
-    IntentToolsLoader,
-    get_all_intent_keywords,
-    get_intent_tool,
-)
+from sage_libs.sage_agentic.intent.base import IntentRecognitionContext
 from sage_libs.sage_agentic.intent.factory import build_recognizer_chain
-from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
-
-# LLMIntentRecognizer is optional - imported via factory when needed
-from sage_libs.sage_agentic.intent.types import (
-    DOMAIN_DISPLAY_NAMES,
-    INTENT_DISPLAY_NAMES,
-    IntentResult,
-    KnowledgeDomain,
-    UserIntent,
-    get_domain_display_name,
-    get_intent_display_name,
-)
+from sage_libs.sage_agentic.intent.types import IntentResult
 
 
 class IntentClassifier:
@@ -36,13 +14,13 @@ class IntentClassifier:
         self,
         mode: str = "keyword",
         embedding_model: str | None = None,
-        fallback_modes: list[str] | None = None,
+        secondary_mode: str | None = None,
     ) -> None:
         self.mode = mode
         self.embedding_model = embedding_model
         self._recognizer = build_recognizer_chain(
             primary_mode=mode,
-            fallback_modes=fallback_modes or ("keyword",),
+            secondary_mode=secondary_mode,
             min_confidence=0.0,
         )
         self._initialized = True
@@ -62,21 +40,5 @@ class IntentClassifier:
 
 
 __all__ = [
-    "UserIntent",
-    "KnowledgeDomain",
-    "IntentResult",
-    "IntentTool",
-    "INTENT_TOOLS",
-    "INTENT_DISPLAY_NAMES",
-    "DOMAIN_DISPLAY_NAMES",
-    "IntentToolsLoader",
-    "IntentRecognizer",
-    "ChainedIntentRecognizer",
-    "KeywordIntentRecognizer",
-    "LLMIntentRecognizer",
     "IntentClassifier",
-    "get_intent_display_name",
-    "get_domain_display_name",
-    "get_intent_tool",
-    "get_all_intent_keywords",
 ]

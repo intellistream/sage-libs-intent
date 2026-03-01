@@ -2,27 +2,20 @@
 
 from __future__ import annotations
 
-import logging
-from typing import Iterable
+from collections.abc import Iterable
 
-from sage_libs.sage_agentic.intent import catalog
 from sage_libs.sage_agentic.intent.base import IntentRecognitionContext, IntentRecognizer
+from sage_libs.sage_agentic.intent.catalog import INTENT_TOOLS, get_intent_tool
 from sage_libs.sage_agentic.intent.types import IntentResult, KnowledgeDomain, UserIntent
-
-logger = logging.getLogger(__name__)
 
 
 class KeywordIntentRecognizer(IntentRecognizer):
-    def __init__(self) -> None:
-        self._selector = None
-        self._initialize_selector()
-
     @staticmethod
     def _build_result(intent: UserIntent, confidence: float, matched_keywords: Iterable[str] = ()):  # type: ignore[type-arg]
         """Construct an IntentResult with knowledge domain enrichment when applicable."""
         knowledge_domains = None
         if intent == UserIntent.KNOWLEDGE_QUERY:
-            tool = catalog.get_intent_tool(intent)
+            tool = get_intent_tool(intent)
             if tool and tool.knowledge_domains:
                 knowledge_domains = [KnowledgeDomain(d) for d in tool.knowledge_domains]
 
@@ -32,32 +25,6 @@ class KeywordIntentRecognizer(IntentRecognizer):
             knowledge_domains=knowledge_domains,
             matched_keywords=list(matched_keywords),
         )
-
-    def _initialize_selector(self) -> None:
-        try:
-            from sage_libs.sage_agentic.agents.action.tool_selection import (
-                KeywordSelector,
-                SelectorResources,
-            )
-            from sage_libs.sage_agentic.agents.action.tool_selection.schemas import (
-                KeywordSelectorConfig,
-            )
-
-            tools_loader = catalog.IntentToolsLoader(catalog.INTENT_TOOLS)
-            resources = SelectorResources(tools_loader=tools_loader, embedding_client=None)
-            config = KeywordSelectorConfig(
-                name="intent_keyword",
-                top_k=1,
-                min_score=0.0,
-                method="tfidf",
-                lowercase=True,
-                remove_stopwords=False,
-                ngram_range=(1, 2),
-            )
-            self._selector = KeywordSelector.from_config(config, resources)
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("Keyword selector unavailable, falling back to simple match: %s", exc)
-            self._selector = None
 
     async def classify(self, ctx: IntentRecognitionContext) -> IntentResult:
         # Heuristic boost: installation/docs/tutorial queries should map to knowledge query.
@@ -88,38 +55,7 @@ class KeywordIntentRecognizer(IntentRecognizer):
             ]
             return self._build_result(UserIntent.KNOWLEDGE_QUERY, 0.9, trigger_list)
 
-        if self._selector is None:
-            return self._classify_simple(ctx.message)
-
-        from sage_libs.sage_agentic.agents.action.tool_selection.schemas import ToolSelectionQuery
-
-        query = ToolSelectionQuery(
-            sample_id="intent_classification",
-            instruction=ctx.message,
-            context={"history": ctx.history} if ctx.history else {},
-            candidate_tools=[tool.tool_id for tool in catalog.INTENT_TOOLS],
-        )
-        predictions = self._selector.select(query, top_k=1)
-        if not predictions:
-            return IntentResult(intent=UserIntent.GENERAL_CHAT, confidence=0.3)
-
-        top = predictions[0]
-        try:
-            intent = UserIntent(top.tool_id)
-        except ValueError:
-            return IntentResult(intent=UserIntent.GENERAL_CHAT, confidence=0.3)
-
-        matched_keywords = top.metadata.get("matched_keywords", []) if top.metadata else []
-
-        return IntentResult(
-            intent=intent,
-            confidence=top.score,
-            knowledge_domains=self._build_result(
-                intent, top.score, matched_keywords
-            ).knowledge_domains,
-            matched_keywords=matched_keywords,
-            raw_prediction=top,
-        )
+        return self._classify_simple(ctx.message)
 
     def _classify_simple(self, message: str) -> IntentResult:
         message_lower = message.lower()
@@ -127,7 +63,7 @@ class KeywordIntentRecognizer(IntentRecognizer):
         best_score = 0.0
         matched_keywords: list[str] = []
 
-        for tool in catalog.INTENT_TOOLS:
+        for tool in INTENT_TOOLS:
             score = 0.0
             matches = []
             for keyword in tool.keywords:

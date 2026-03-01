@@ -1,4 +1,4 @@
-"""Setup script for sage-intent package."""
+"""Setup script for sage-libs-intent package."""
 
 from setuptools import setup
 
