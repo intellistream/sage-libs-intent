@@ -350,7 +350,7 @@ def get_all_intent_keywords() -> dict[str, list[str]]:
 
 
 class IntentToolsLoader:
-    """Intent tool loader for intent recognizers."""
+    """Loader compatible with SelectorResources."""
 
     def __init__(self, tools: list[IntentTool] | None = None):
         tools = tools or INTENT_TOOLS
