@@ -17,6 +17,7 @@ from sage_libs.sage_agentic.intent.catalog import (
 from sage_libs.sage_agentic.intent.classifier import IntentClassifier
 from sage_libs.sage_agentic.intent.factory import build_recognizer_chain
 from sage_libs.sage_agentic.intent.keyword_recognizer import KeywordIntentRecognizer
+from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
 from sage_libs.sage_agentic.intent.types import (
     DOMAIN_DISPLAY_NAMES,
     INTENT_DISPLAY_NAMES,
@@ -26,15 +27,6 @@ from sage_libs.sage_agentic.intent.types import (
     get_domain_display_name,
     get_intent_display_name,
 )
-
-# Conditional import for LLMIntentRecognizer (requires isagellm)
-try:
-    from sage_libs.sage_agentic.intent.llm_recognizer import LLMIntentRecognizer
-
-    _llm_recognizer_available = True
-except ImportError:
-    LLMIntentRecognizer = None
-    _llm_recognizer_available = False
 
 __all__ = [
     "ChainedIntentRecognizer",
@@ -57,3 +49,9 @@ __all__ = [
     "get_intent_tool",
     "get_all_intent_keywords",
 ]
+
+# Trigger factory registration with sage.libs.agentic on package import.
+try:
+    from . import _register  # noqa: F401
+except Exception:  # pragma: no cover
+    pass
